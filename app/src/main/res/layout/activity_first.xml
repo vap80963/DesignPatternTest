@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.myapplication.customview.first.FirstActivity">
+
+
+    <com.example.admin.myapplication.customview.first.FirstCustomView
+        android:id="@+id/first_custom_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/scale_minus"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/scale_minus"/>
+
+    <Button
+        android:id="@+id/reset"
+        android:text="重置"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/scale_minus"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"/>
+
+    <Button
+        android:id="@+id/scale_plus"
+        android:text="放大"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/scale_minus"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/reset"/>
+
+    <Button
+        android:id="@+id/scale_minus"
+        android:text="缩小"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/scale_plus"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/scale_plus"
+        app:layout_constraintTop_toTopOf="@+id/slope_minus"/>
+
+    <Button
+        android:id="@+id/slope_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="右倾"
+        app:layout_constraintBottom_toTopOf="@+id/slope_minus"
+        app:layout_constraintLeft_toLeftOf="@+id/slope_minus"
+        app:layout_constraintRight_toRightOf="@+id/slope_minus"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"/>
+
+    <Button
+        android:id="@+id/slope_minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="左倾"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/scale_minus"
+        tools:layout_constraintLeft_creator="1"/>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -23,4 +23,13 @@ public class DemoActivity extends IViewActivity<IPresenter> implements IView {
 
     }
 
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected int getLayoutView() {
+        return 0;
+    }
 }
