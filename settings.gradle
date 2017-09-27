@@ -1,1 +1,3 @@
 include ':app', ':module'
+include ':CommonLib'
+project(':CommonLib').projectDir = new File('../auric-android-common-lib/CommonLib')

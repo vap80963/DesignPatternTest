@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorAccent">#fff</color>
+    <color name="app_main">#fff</color>
+    <color name="app_yellow">#ffd801</color>
+    <color name="app_black">#3f3b3a</color>
+    <color name="app_gray">#8f9498</color>
+    <color name="app_line">#e6e6e6</color>
+
+    <color name="app_front_333">#333</color>
+    <color name="app_front_666">#666</color>
+    <color name="app_front_999">#999</color>
+
+
+    <color name="app_main_pressed">#f08823</color>
+    <color name="chating_green">#449900</color>
+    <color name="app_bar">#fff</color>
+    <color name="app_title">#ffffffff</color>
+    <color name="app_title2">#f9f9f9</color>
+    <color name="holo_blue_light">#ff33b5e5</color>
+    <color name="app_base_color">#597bf2</color>
+    <color name="window_bg">#f0f0f0</color>
+    <color name="window_bg2">#f5f5f5</color>
+    <color name="app_gray_d0">#d0d0d0</color>
+    <color name="app_money">#E76649</color>
+    <color name="jh_color">#6e4710</color>
+    <color name="cancel_btn_pressed">#ededed</color>
+
+    <color name="common_ddd">#dddddd</color>
+    <color name="common_btn">#ECEBF1</color>
+    <color name="gray_a0">#a0a0a0</color>
+    <color name="common_pressed">#EACC1E</color>
+    <color name="qqblue">#ff54acea</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="app_normal_black">#585453</color>
+    <color name="black_transparent">#7f000000</color>
+    <color name="red">#ffff0000</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="gray">#5577787b</color>
+    <color name="grey">#f177787b</color>
+    <color name="green">#ff00ff00</color>
+    <color name="btn_unable">#EFEFEF</color>
+    <color name="common_fff">#ffffff</color>
+    <color name="common_top_bar_blue">#4ebcd3</color>
+    <color name="btn_login_normal">#007086</color>
+    <color name="btn_login_pressed">#303744</color>
+    <color name="btn_logout_normal">#d33f3f</color>
+    <color name="btn_logout_pressed">#DA5A4D</color>
+
+
+    <color name="colorPrimary">#f47421</color>
+    <color name="colorPrimaryDark">#f47421</color>
+    <color name="pro_green">#00EE00</color>
+
+    <!-- PagerSlidingTabStrip-->
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="activate_text_color">#FF666666</color>
+    <color name="deactivate_text_color">#FFCCCCCC</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- 黑色透明色值 -->
+    <color name="transparent_background_20">#20000000</color>
+    <color name="transparent_background_40">#40000000</color>
+    <color name="transparent_background_60">#60000000</color>
+    <color name="transparent_background_80">#80000000</color>
+    <color name="transparent_background_50">#e0000000</color>
+    <color name="transparent_background_70">#B0000000</color>
+    <color name="transparent_background_10">#1A000000</color>
+    <color name="transparent_background_30">#4C000000</color>
+    <color name="transparent_background_90">#E6000000</color>
+
+    <!-- 白色透明 -->
+    <color name="transparent_background_white_70">#B0FFFFFF</color>
+    <color name="transparent_background_white_40">#40FFFFFF</color>
+    <color name="transparent_background_white_60">#60FFFFFF</color>
+    <color name="transparent_background_white_90">#E6FFFFFF</color>
+
+    <color name="text_highlight1">#e60012</color>
+    <color name="text_highlight2">#e76649</color>
+    <color name="text_divider1">#d6d6d6</color>
+    <color name="text_divider2">#e1e1e1</color>
+    <color name="text_divider3">#ffc698</color>
+    <color name="text_title1">#333333</color>
+    <color name="text_title2">#666666</color>
+    <color name="text_title3">#999999</color>
+    <color name="text_title4">#33aa11</color>
+    <color name="text_title5">#cbcbcb</color>
+    <color name="text_title6">#0099ee</color>
+    <color name="text_title7">#ffaa00</color>
+    <color name="text_title8">#0099ff</color>
+    <color name="text_price">#FD6601</color>
+    <color name="text_search">#ABB1BD</color>
+    <color name="text_background">#ececec</color>
+    <color name="btn_send_sms_normal">#fa9b5e</color>
+    <color name="btn_send_sms_clicked">#cccccc</color>
+    <color name="btn_clicked">#1eabeb</color>
+
+    <!-- mine -->
+    <color name="text_mine_member_buy">#ff6600</color>
+    <color name="text_mine_member_update">#449900</color>
+
+    <color name="item_bg">#e5e5e5</color>
+    <color name="transparent_half">#23000000</color>
+    <color name="gap_line">#e2e2e2</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_777572">#777572</color>
+    <color name="toolbar_night">#3a73a2</color>
+    <color name="toolbar_day">#029ae2</color>
+
+    <color name="clicked_gray">#e4e4e4</color>
+    <color name="clicked_gray2">#D1D3D2</color>
+    <color name="clicked_white">#F5F5F5</color>
+    <color name="common_blue">#48BEFE</color>
+    <color name="count_down_gray">#F5F4F9</color>
+    <color name="count_down_green">#7BD24F</color>
+
 </resources>

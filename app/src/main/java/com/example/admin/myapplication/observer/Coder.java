@@ -1,6 +1,6 @@
 package com.example.admin.myapplication.observer;
 
-import com.example.admin.myapplication.LogUtils;
+import com.example.admin.myapplication.utils.LogUtils;
 
 import java.util.Observable;
 import java.util.Observer;

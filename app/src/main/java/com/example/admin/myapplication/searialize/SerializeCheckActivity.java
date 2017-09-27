@@ -5,8 +5,8 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.admin.myapplication.LogUtils;
 import com.example.admin.myapplication.R;
+import com.example.admin.myapplication.utils.LogUtils;
 
 import java.io.EOFException;
 import java.io.File;
@@ -15,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Tin on 2017/9/19.
@@ -31,14 +29,14 @@ public class SerializeCheckActivity extends AppCompatActivity {
 
 //        startCheck();
 
-        reflectCheck();
+//        reflectCheck();
     }
 
     /**
      * 通过反射获得UserInfo实例，比较两者是否相同
      */
     private void reflectCheck() {
-        UserInfo userInfo = UserInfo.getInstance();
+/*        UserInfo userInfo = UserInfo.getInstance();
         userInfo.setName("Baby");
         Constructor[] constructs = UserInfo.class.getDeclaredConstructors();
         Constructor construct = constructs[0];
@@ -55,7 +53,7 @@ public class SerializeCheckActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void startCheck() {

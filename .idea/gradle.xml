@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/module" />
+            <option value="$PROJECT_DIR$/../auric-android-common-lib/CommonLib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

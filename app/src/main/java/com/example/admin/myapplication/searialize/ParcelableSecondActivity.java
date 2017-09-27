@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.admin.myapplication.LogUtils;
+import com.example.admin.myapplication.utils.LogUtils;
 import com.example.admin.myapplication.R;
 
 /**
