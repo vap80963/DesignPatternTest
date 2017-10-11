@@ -24,9 +24,13 @@
         <activity android:name=".customview.third.ThirdActivity">
         </activity>
         <activity android:name=".searialize.SerializeCheckActivity"/>
-        <activity android:name=".searialize.ParcelCheckActivity">        </activity>
+        <activity android:name=".searialize.ParcelCheckActivity">
+        </activity>
         <activity android:name=".searialize.ParcelableSecondActivity"/>
-        <activity android:name=".customview.countdown.CountDownActivity">
+        <activity android:name=".customview.countdown.CountDownActivity"/>
+        <activity android:name=".customview.success.SuccessActivity"></activity>
+        <activity android:name=".customview.animator.TraslateActivity"></activity>
+        <activity android:name=".bit_arithmetic.BitArithmeticActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
