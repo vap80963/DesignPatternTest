@@ -2,10 +2,16 @@ package com.example.admin.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -16,6 +22,8 @@ public class MainActivity2 extends AppCompatActivity {
     TextView uiResult;
     @Bind(R.id.json_string)
     TextView mTextView;
+    @Bind(R.id.button7)
+    Button mButton;
     String n = "";
     String nm = "";
 
@@ -23,6 +31,7 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         JSONArray jsonArray = new JSONArray();
@@ -35,6 +44,7 @@ public class MainActivity2 extends AppCompatActivity {
         JSONObject jsonObject5 = new JSONObject();
         JSONObject jsonObject6 = new JSONObject();
 
+        HashMap<String, Object> hashMap = new HashMap<>();
 
         /*OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
@@ -81,11 +91,98 @@ public class MainActivity2 extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
+        int i;
+/*        for (;;) {
+            i = new Random(10).nextInt();
+            Log.e("MainActivity2", "i = " + i);
+            i = i * 100 / 200 * 4 / 3;
+            int b = i * 100;
+            if ((i % 4) == 0) {
+                Log.e("MainActivity2", "i = " + i);
+            }
+        }*/
+
+        for (int j = 0; j < 5; j++) {
+            int audio = new Random().nextInt(5);
+            String type[] = new String[] {"story_0", "poem_0", "song_0", "knowledge_0", "rabbit_dance"};
+            StringBuffer resultStr = new StringBuffer("");
+            switch (audio) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    int num = new Random().nextInt(5) + 1;
+                    resultStr.append(type[audio]).append(num);
+                    break;
+                case 4:
+                    resultStr.append(type[audio]);
+                    break;
+            }
+            int result = getResource(resultStr.toString(), R.raw.class);
+        }
     }
 
-    @OnClick(R.id.json_string)
-    public void OnClick() {
-        uiResult.setText("uiResult");
+    public int getResource(String sourceName, Class<?> targetClass) {
+/*        Context ctx=getBaseContext();
+        int resId = getResources().getIdentifier(sourceName, "raw", ctx.getPackageName());
+        //如果没有在"mipmap"下找到imageName,将会返回0
+        return resId;*/
+        Class cls = targetClass;
+        try {
+            Field field = cls.getDeclaredField(sourceName);
+            return field.getInt(field);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+            return -1;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
+
+    @OnClick({R.id.json_string, R.id.button7})
+    public void OnClick(View v) {
+        switch (v.getId()) {
+            case R.id.json_string:
+                uiResult.setText("uiResult");
+                break;
+            case R.id.button7:
+
+        }
+    }
+
+    private static final Object DELETED = new Object();
+    private boolean mGarbage = false;
+
+    private int[] mKeys;
+    private Object[] mValues;
+    private int mSize;
+
+    private void gc() {
+        int size = mSize;
+        int o = 0;
+
+        int keys[] = mKeys;
+        Object values[] = mValues;
+
+        assert size <= mSize;
+        for (int i = 0; i < size; i++) {
+            Object value = values[i];
+
+            if (value != DELETED) {
+                if (i != o) {
+                    values[o] = value;
+                    keys[o] = keys[i];
+                    values[i] = null;
+                }
+                o++;
+            }
+        }
+
+        mGarbage = false;
+        mSize = o;
+    }
+
+
 
 }
