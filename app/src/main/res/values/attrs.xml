@@ -9,7 +9,7 @@
         <attr name="text_color" format="color"></attr>
     </declare-styleable>
 
-    <declare-styleable name="SuccessView">
+    <declare-styleable name="ResultView">
         <attr name="main_color" format="color"></attr>
         <attr name="stroke_size" format="dimension"></attr>
         <attr name="radius_size" format="dimension"></attr>
@@ -18,5 +18,6 @@
         <attr name="repeating" format="boolean"></attr>
         <attr name="x_axis" format="dimension"></attr>
         <attr name="y_axis" format="dimension"></attr>
+        <attr name="appearence" format="boolean"></attr>
     </declare-styleable>
 </resources>

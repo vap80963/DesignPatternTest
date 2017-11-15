@@ -28,17 +28,16 @@
         </activity>
         <activity android:name=".searialize.ParcelableSecondActivity"/>
         <activity android:name=".customview.countdown.CountDownActivity"/>
-        <activity android:name=".customview.success.SuccessActivity">
-        </activity>
-        <activity android:name=".customview.animator.TraslateActivity"></activity>
-        <activity android:name=".bit_arithmetic.BitArithmeticActivity"></activity>
-        <activity android:name=".md5.MD5Activity">
+        <activity android:name=".customview.success.ResultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".customview.animator.TraslateActivity"></activity>
+        <activity android:name=".bit_arithmetic.BitArithmeticActivity"></activity>
+        <activity android:name=".md5.MD5Activity"></activity>
     </application>
 
 </manifest>

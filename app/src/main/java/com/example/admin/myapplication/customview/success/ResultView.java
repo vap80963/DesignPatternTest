@@ -12,7 +12,6 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.admin.myapplication.R;
 import com.example.admin.myapplication.utils.LogUtils;
@@ -27,7 +26,7 @@ import com.example.admin.myapplication.utils.ScreenUtil;
  * 或者 getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
  */
 
-public class SuccessView extends View implements ValueAnimator.AnimatorUpdateListener {
+public class ResultView extends View implements ValueAnimator.AnimatorUpdateListener {
 
     private Paint mPaint;
     private Path mPathCircle;
@@ -45,9 +44,7 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     private float radius = 0;
     private float strokeWidth = 0;
     private float roundX, roundY = 0;
-    private float start_angel = 90;
-    private boolean rotate_deasil = true;
-    private volatile boolean repeating = false;
+    private volatile boolean appearence = true;
 
     /**
      * 当前绘制进度占总Path长度百分比
@@ -61,26 +58,32 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     private Paint.Style paintStyle = Paint.Style.STROKE;
 
     private float parentW, parentH;
-    private float offsetW, offsetH = 0;
 //    private float left, top, right, bottom;  //计时器的四个顶点坐标
 
     private float originX, originY;  //路径的起点位置坐标
     private float nextX, nextY;  //路径的下一点坐标
     private float endX, endY;
 
+    private float x1, x2, y1, y2;
+    private float lineX, lineY;
+    private float lineX1, lineY1;
+
+    private boolean fisrtInit = true;
+
     private static final int RESULT_CICLE = 0;
     private static final int RESULT_RIGHT = 1;
+    private static final int RESULT_ERROR = 2;
     private int result = RESULT_CICLE;
 
-    public SuccessView(Context context) {
+    public ResultView(Context context) {
         this(context, null);
     }
 
-    public SuccessView(Context context, @Nullable AttributeSet attrs) {
+    public ResultView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SuccessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ResultView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -93,20 +96,11 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
 
         parentW = ScreenUtil.getScreenWidth(mContext);
         parentH = ScreenUtil.getScreenHeight(mContext);
-        ViewGroup parent = (ViewGroup) getParent();
-        if (parent != null) {
-            parentW = parent.getWidth();
-            parentH = parent.getHeight();
-            offsetW = parent.getLeft();
-            offsetH = parent.getTop();
-        }
-        radius = parentW / 4f;
-        roundX = parentW / 2f + offsetW;
-        roundY = parentH / 6f + offsetH;
+
         strokeWidth = parentW / 20f;
 
         if (attrs != null)
-            parseAttributeset(context.obtainStyledAttributes(attrs, R.styleable.SuccessView));
+            parseAttributeset(context.obtainStyledAttributes(attrs, R.styleable.ResultView));
 
         mPaint = new Paint();
         mPaint.setColor(main_color);
@@ -134,38 +128,37 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        float toolbarHeight = 0;
-/*        left = roundX - radius;  top = roundY - radius - toolbarHeight;
-        right = roundX + radius;  bottom = roundY + radius - toolbarHeight;
-        roundY -= toolbarHeight;*/
-
-        originX = parentW * 5 / 12;  originY = parentH * 5 / 32;
-        nextX = parentW * 35 / 72;  nextY = parentH * 53 / 256;
-        endX = parentW * 5 / 8;  endY = parentH * 9 / 64;
-        ViewGroup parent = (ViewGroup) getParent();
-        if (parent != null) {
-            parentW = parent.getWidth();
-            parentH = parent.getHeight();
-            offsetW = parent.getLeft();
-            offsetH = parent.getTop();
-        }
-        LogUtils.e("onMeasure parentW = " + parentW + " parentH = " + parentH);
-        LogUtils.e("onMeasure offsetW = " + offsetW + " offsetH = " + offsetH);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        ViewGroup parent = (ViewGroup) getParent();
-        if (parent != null) {
-            parentW = parent.getWidth();
-            parentH = parent.getHeight();
-            offsetW = parent.getLeft();
-            offsetH = parent.getTop();
+
+        if (fisrtInit) {
+            parentW = getWidth();
+            parentH = getHeight();
+            float offsetX;   float offsetY;
+            LogUtils.e("onDraw parentW = " + parentW + "  parentH = " + parentH);
+            if (parentW > parentH) {
+                radius = (parentH - strokeWidth * 2) / 2f;
+                roundX = parentW / 2f;  roundY = parentH / 2f;
+                offsetX = roundX - radius;  offsetY = strokeWidth + 2 * strokeWidth;
+            } else {
+                radius = (parentW - strokeWidth * 2) / 2f;
+                roundX = parentH / 2f;  roundY = parentW / 2;
+                offsetX = strokeWidth - strokeWidth;  offsetY = roundX - radius - strokeWidth;
+            }
+            originX = offsetX + radius * 4 / 7;  originY = offsetY + radius * 4 / 9;
+            nextX = offsetX + radius * 65 / 72;  nextY = offsetY + radius * 9 / 10;
+            endX = offsetX + radius * 3 / 2;  endY = offsetY + radius / 5;
+            offsetY -= 2 * strokeWidth;
+            x1 = offsetX + radius * 3 / 5;   y1 = offsetY + radius * 3 / 5;
+            x2 = offsetX + radius * 7 / 5; y2 = offsetY + radius * 7 / 5;
+            lineX = x1;   lineY = y1;
+            lineX1 = x2;    lineY1 = y1;
+            fisrtInit = false;
+            LogUtils.e("onDraw parentW = " + parentW + " parentH = " + parentH);
         }
-        LogUtils.e("onDraw parentW = " + parentW + " parentH = " + parentH);
-        LogUtils.e("onDraw offsetW = " + offsetW + " offsetH = " + offsetH);
 
         mPaint.setStrokeWidth(strokeWidth);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -178,7 +171,7 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
         //画一个圆
         mPathCircle.addCircle(roundX, roundY, radius, Path.Direction.CW);
         mPathMeasure.setPath(mPathCircle, true);
-        int start = 360;
+        int start = 0;
         //获取到指定范围内的一段轮廓，存入到dst参数中
         mPathMeasure.getSegment(start, mCirclePercent * (mPathMeasure.getLength() + start), mPathCircleDst, true);
         canvas.drawPath(mPathCircleDst, mPaint);
@@ -198,6 +191,21 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
             canvas.drawPath(mPathRightDst, mPaint);
         }
 
+        if (result == RESULT_ERROR) {
+            mPaint.setStrokeJoin(Paint.Join.ROUND);  //设置拐角为圆角
+            if (lineX <= x2 && lineY <= y2) {
+                lineX += 10;   lineY+= 10;
+            }
+            canvas.drawLine(x1, y1, lineX, lineY, mPaint);
+            if (lineX1 >= x1 && lineY1 <= y2) {
+                lineX1 -= 10;  lineY1 +=10;
+            }
+            canvas.drawLine(x2, y1, lineX1, lineY1, mPaint);
+
+            //每隔10毫秒界面刷新
+            postInvalidateDelayed(10);
+        }
+
     }
 
     @Override
@@ -206,8 +214,12 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
             mCirclePercent = (float) animation.getAnimatedValue();
             invalidate();
             if (mCirclePercent == 1) {
-                result = RESULT_RIGHT;
-                mRightAnimator.start();
+                if (appearence) {
+                    result = RESULT_RIGHT;
+                    mRightAnimator.start();
+                } else {
+                    result = RESULT_ERROR;
+                }
             }
         } else if (animation.equals(mRightAnimator)) {
             if (result == RESULT_RIGHT) {
@@ -218,14 +230,10 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     }
 
     private void parseAttributeset(TypedArray a) {
-        main_color = a.getColor(R.styleable.SuccessView_main_color, main_color);
-        radius = a.getDimension(R.styleable.SuccessView_radius_size, radius);
-        strokeWidth = a.getDimension(R.styleable.SuccessView_stroke_size, strokeWidth);
-        roundX = a.getDimension(R.styleable.SuccessView_x_axis, roundX);
-        roundY = a.getDimension(R.styleable.SuccessView_y_axis, roundY);
-        start_angel = a.getFloat(R.styleable.SuccessView_start_angel, start_angel);
-        rotate_deasil = a.getBoolean(R.styleable.SuccessView_rotate_deasil, rotate_deasil);
-        repeating = a.getBoolean(R.styleable.SuccessView_repeating, repeating);
+        main_color = a.getColor(R.styleable.ResultView_main_color, main_color);
+        radius = a.getDimension(R.styleable.ResultView_radius_size, radius);
+        strokeWidth = a.getDimension(R.styleable.ResultView_stroke_size, strokeWidth);
+        appearence = a.getBoolean(R.styleable.ResultView_appearence, appearence);
         a.recycle();
     }
 
