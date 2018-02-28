@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.example.admin.myapplication.R;
+import com.example.admin.myapplication.utils.LogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +23,8 @@ public class TraslateActivity extends AppCompatActivity implements ValueAnimator
     ImageView imgStep;
     @BindView(R.id.step1_hand_img)
     ImageView imgStepHand;
+    @Bind(R.id.img_robot)
+    ImageView imgRobot;
 
     AnimatorSet animatorSet;
     ObjectAnimator objectAnimator;
@@ -41,9 +44,11 @@ public class TraslateActivity extends AppCompatActivity implements ValueAnimator
                 if (translateX != 0 && translateY != 0) {
                     translateX = 0;
                     translateY = 0;
+                    imgRobot.setImageResource(R.drawable.img_pressed);
                 } else {
                     translateX = X;
                     translateY = Y;
+                    imgRobot.setImageResource(R.drawable.img_normal);
                 }
                 startAnimation();
             }
@@ -65,18 +70,20 @@ public class TraslateActivity extends AppCompatActivity implements ValueAnimator
         float stepLeft = imgStep.getLeft();
         float stepRight = imgStep.getRight();
         float stepX = (stepRight - stepLeft) * 55 / 107f + stepLeft;
-        float stepY = (stepBottom - stepTop) * 23 / 105f + stepTop;
+        float stepY = (stepBottom - stepTop) * 25 / 105f + stepTop;
 
         float handLeft = imgStepHand.getLeft();
         float handRight = imgStepHand.getRight();
         float handBottom = imgStepHand.getBottom();
-        float handX = (handRight - handLeft) * 11 / 72f + handLeft;
+        float handX = (handRight - handLeft) * 13 / 70f + handLeft;
         float handY = handBottom;
 
         X = stepX - handX;
-        Y = stepY - handY;
+        Y = -(stepY - handY);
         translateX = X;
         translateY = Y;
+        LogUtils.e("stepX = " + stepX + " stepY = " + stepY + " handX = " + handX + " handY = " + handY);
+        LogUtils.e("x = " + X + " Y = " + Y + " translateX = " + translateY + " translateY = " + translateY);
     }
 
     @Override

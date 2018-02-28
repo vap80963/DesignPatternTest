@@ -8,19 +8,25 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.graphics.RectF;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.example.admin.myapplication.R;
+import com.example.admin.myapplication.utils.LogUtils;
 import com.example.admin.myapplication.utils.ScreenUtil;
 
 /**
  * Created by Tin on 2017/9/27.
+ * 使用了drawPath，如果要使用SuccessView需要设置不使用硬件加速或者在所要获取的path上执行mPathRight.rLineTo(0, 0);
+ * 关闭硬件加速的方法：
+ * android:hardwareAccelerated="false"
+ * 或者 view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+ * 或者 getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
  */
 
-public class SuccessView extends View implements ValueAnimator.AnimatorUpdateListener {
+public class ResultView extends View implements ValueAnimator.AnimatorUpdateListener {
 
     private Paint mPaint;
     private Path mPathCircle;
@@ -34,7 +40,11 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
 
     private Context mContext;
 
-    private int main_color = 0x000000;
+    private int main_color = Color.parseColor("#7BD24F");
+    private float radius = 0;
+    private float strokeWidth = 0;
+    private float roundX, roundY = 0;
+    private volatile boolean appearence = true;
 
     /**
      * 当前绘制进度占总Path长度百分比
@@ -45,32 +55,35 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     private ValueAnimator mCircleAnimator;
     private ValueAnimator mRightAnimator;
 
-    private float screenW, screenH;  //屏幕的宽和高
-    private float left, top, right, bottom;  //计时器的四个顶点坐标
-    private float radius;
-    private float roundX, roundY;
+    private Paint.Style paintStyle = Paint.Style.STROKE;
+
+    private float parentW, parentH;
+//    private float left, top, right, bottom;  //计时器的四个顶点坐标
 
     private float originX, originY;  //路径的起点位置坐标
     private float nextX, nextY;  //路径的下一点坐标
     private float endX, endY;
 
-    private float strokeWidth;
+    private float x1, x2, y1, y2;
+    private float lineX, lineY;
+    private float lineX1, lineY1;
+
+    private boolean fisrtInit = true;
 
     private static final int RESULT_CICLE = 0;
     private static final int RESULT_RIGHT = 1;
+    private static final int RESULT_ERROR = 2;
     private int result = RESULT_CICLE;
 
-    public SuccessView(Context context) {
-        super(context);
-        init(context, null);
+    public ResultView(Context context) {
+        this(context, null);
     }
 
-    public SuccessView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    public ResultView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    public SuccessView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ResultView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -80,18 +93,18 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
             return;
         }
         mContext = context;
-        if (attrs != null) {
-            parseAttributeset(context.obtainStyledAttributes(attrs, R.styleable.CountDownView));
-        }
 
-        screenW = ScreenUtil.getScreenWidth(mContext);
-        screenH = ScreenUtil.getScreenHeight(mContext);
-        radius = screenW / 4f;
-        roundX = screenW / 2f;  roundY = screenH / 6f;
+        parentW = ScreenUtil.getScreenWidth(mContext);
+        parentH = ScreenUtil.getScreenHeight(mContext);
+
+        strokeWidth = parentW / 20f;
+
+        if (attrs != null)
+            parseAttributeset(context.obtainStyledAttributes(attrs, R.styleable.ResultView));
 
         mPaint = new Paint();
-        mPaint.setColor(Color.parseColor("#7BD24F"));
-        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(main_color);
+        mPaint.setStyle(paintStyle);
         mPaint.setAntiAlias(true);
 
         mPathCircle = new Path();
@@ -115,34 +128,52 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        float toolbarHeight = 0;
-        left = roundX - radius;  top = roundY - radius - toolbarHeight;
-        right = roundX + radius;  bottom = roundY + radius - toolbarHeight;
-        roundY -= toolbarHeight;
-
-        originX = screenW * 5 / 12;  originY = screenH * 5 / 32;
-        nextX = screenW * 35 / 72;  nextY = screenH * 53 / 256;
-        endX = screenW * 5 / 8;  endY = screenH * 9 / 64;
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        strokeWidth = screenW / 20f;
+        if (fisrtInit) {
+            parentW = getWidth();
+            parentH = getHeight();
+            float offsetX;   float offsetY;
+            LogUtils.e("onDraw parentW = " + parentW + "  parentH = " + parentH);
+            if (parentW > parentH) {
+                radius = (parentH - strokeWidth * 2) / 2f;
+                roundX = parentW / 2f;  roundY = parentH / 2f;
+                offsetX = roundX - radius;  offsetY = strokeWidth + 2 * strokeWidth;
+            } else {
+                radius = (parentW - strokeWidth * 2) / 2f;
+                roundX = parentH / 2f;  roundY = parentW / 2;
+                offsetX = strokeWidth - strokeWidth;  offsetY = roundX - radius - strokeWidth;
+            }
+            originX = offsetX + radius * 4 / 7;  originY = offsetY + radius * 4 / 9;
+            nextX = offsetX + radius * 65 / 72;  nextY = offsetY + radius * 9 / 10;
+            endX = offsetX + radius * 3 / 2;  endY = offsetY + radius / 5;
+            offsetY -= 2 * strokeWidth;
+            x1 = offsetX + radius * 3 / 5;   y1 = offsetY + radius * 3 / 5;
+            x2 = offsetX + radius * 7 / 5; y2 = offsetY + radius * 7 / 5;
+            lineX = x1;   lineY = y1;
+            lineX1 = x2;    lineY1 = y1;
+            fisrtInit = false;
+            LogUtils.e("onDraw parentW = " + parentW + " parentH = " + parentH);
+        }
+
         mPaint.setStrokeWidth(strokeWidth);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
 
         //设置扇形的四个顶点位置
-        RectF rectF = new RectF(left, top, right, bottom);
-/*        //绘制一个空心扇形
+/*        RectF rectF = new RectF(left, top, right, bottom);
+        //绘制一个空心扇形
         canvas.drawArc(rectF, -90, progress * 3.6f, false, mPaint);*/
 
+        //画一个圆
         mPathCircle.addCircle(roundX, roundY, radius, Path.Direction.CW);
-        mPathMeasure.setPath(mPathCircle, false);
-        mPathMeasure.getSegment(0, mCirclePercent * mPathMeasure.getLength(), mPathCircleDst, true);
+        mPathMeasure.setPath(mPathCircle, true);
+        int start = 0;
+        //获取到指定范围内的一段轮廓，存入到dst参数中
+        mPathMeasure.getSegment(start, mCirclePercent * (mPathMeasure.getLength() + start), mPathCircleDst, true);
         canvas.drawPath(mPathCircleDst, mPaint);
 
         if (result == RESULT_RIGHT) {
@@ -151,10 +182,28 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
             mPathRight.moveTo(originX, originY);
             mPathRight.lineTo(nextX, nextY);
             mPathRight.lineTo(endX, endY);
-            mPathMeasure.nextContour();
+            mPathMeasure.nextContour();  //移动到下一个轮廓
             mPathMeasure.setPath(mPathRight, false);
+            //避免KITKAT及以下机型mPathMeasure.getLength()无效
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
+                mPathRight.rLineTo(0, 0);
             mPathMeasure.getSegment(0, mRightPercent * mPathMeasure.getLength(), mPathRightDst, true);
             canvas.drawPath(mPathRightDst, mPaint);
+        }
+
+        if (result == RESULT_ERROR) {
+            mPaint.setStrokeJoin(Paint.Join.ROUND);  //设置拐角为圆角
+            if (lineX <= x2 && lineY <= y2) {
+                lineX += 10;   lineY+= 10;
+            }
+            canvas.drawLine(x1, y1, lineX, lineY, mPaint);
+            if (lineX1 >= x1 && lineY1 <= y2) {
+                lineX1 -= 10;  lineY1 +=10;
+            }
+            canvas.drawLine(x2, y1, lineX1, lineY1, mPaint);
+
+            //每隔10毫秒界面刷新
+            postInvalidateDelayed(10);
         }
 
     }
@@ -165,8 +214,12 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
             mCirclePercent = (float) animation.getAnimatedValue();
             invalidate();
             if (mCirclePercent == 1) {
-                result = RESULT_RIGHT;
-                mRightAnimator.start();
+                if (appearence) {
+                    result = RESULT_RIGHT;
+                    mRightAnimator.start();
+                } else {
+                    result = RESULT_ERROR;
+                }
             }
         } else if (animation.equals(mRightAnimator)) {
             if (result == RESULT_RIGHT) {
@@ -177,14 +230,18 @@ public class SuccessView extends View implements ValueAnimator.AnimatorUpdateLis
     }
 
     private void parseAttributeset(TypedArray a) {
-        main_color = a.getColor(R.styleable.SuccessView_main_color, main_color);
+        main_color = a.getColor(R.styleable.ResultView_main_color, main_color);
+        radius = a.getDimension(R.styleable.ResultView_radius_size, radius);
+        strokeWidth = a.getDimension(R.styleable.ResultView_stroke_size, strokeWidth);
+        appearence = a.getBoolean(R.styleable.ResultView_appearence, appearence);
+        a.recycle();
     }
 
-    public void setRectF(float left, float top, float right, float bottom) {
+/*    public void setRectF(float left, float top, float right, float bottom) {
         this.left = left;   this.top = top;
         this.right = right;  this.bottom = bottom;
         invalidate();
-    }
+    }*/
 
     public void setRadius(float radius) {
         this.radius = radius;
