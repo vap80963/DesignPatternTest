@@ -6,13 +6,13 @@ import android.view.View;
 
 import com.example.admin.myapplication.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FirstActivity extends AppCompatActivity {
 
-    @Bind(R.id.first_custom_view)
+    @BindView(R.id.first_custom_view)
     FirstCustomView mFirstCustomView;
 
     @Override

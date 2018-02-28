@@ -27,4 +27,14 @@ public class A {
 
         }
     }
+
+    public void add() {
+
+    }
+
+    public static void decrease() {
+
+    }
+
+    public static int num = 1;
 }

@@ -53,4 +53,19 @@ public class BinarySearch {
         return ~lo;  // value not present
     }
 
+    static int binarySerarch(int A[], int get) {
+        int left = 0;
+        int right = A.length - 1;
+        while(left < right) {		//利用二分法定位新牌的位置
+            int mid = (left + right) >>> 1;
+            int midValue = A[mid];
+            if (midValue > get) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
 }

@@ -13,14 +13,14 @@ import android.widget.ImageView;
 
 import com.example.admin.myapplication.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TraslateActivity extends AppCompatActivity implements ValueAnimator.AnimatorListener {
 
-    @Bind(R.id.step1_img)
+    @BindView(R.id.step1_img)
     ImageView imgStep;
-    @Bind(R.id.step1_hand_img)
+    @BindView(R.id.step1_hand_img)
     ImageView imgStepHand;
 
     AnimatorSet animatorSet;

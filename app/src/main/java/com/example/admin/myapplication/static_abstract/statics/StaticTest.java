@@ -28,3 +28,5 @@ public class StaticTest extends A {
     }
 
 }
+
+

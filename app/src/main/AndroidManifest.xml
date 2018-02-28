@@ -3,8 +3,10 @@
           package="com.example.admin.myapplication">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".observer.ObserverActivity">
         </activity>
-        <activity android:name=".MainActivity2">
+        <activity android:name=".multi_thread.MainActivity2">
+
         </activity>
         <activity android:name=".customview.CustomViewActivity">
         </activity>
@@ -30,13 +33,18 @@
         <activity android:name=".customview.countdown.CountDownActivity"/>
         <activity android:name=".customview.success.SuccessActivity"></activity>
         <activity android:name=".customview.animator.TraslateActivity"></activity>
-        <activity android:name=".bit_arithmetic.BitArithmeticActivity">
+        <activity android:name=".bit_arithmetic.BitArithmeticActivity"></activity>
+        <activity android:name=".fragment_activity.FragmentActivity"></activity>
+        <activity android:name=".network.NetworkTestActivity"></activity>
+        <activity android:name=".lock.DeadLockTestActivity"></activity>
+        <activity android:name=".memory_leak.MemoryLeakActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN"></action>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

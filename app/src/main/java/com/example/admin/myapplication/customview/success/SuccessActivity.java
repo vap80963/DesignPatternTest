@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.admin.myapplication.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class SuccessActivity extends AppCompatActivity {
 
-    @Bind(R.id.successView)
+    @BindView(R.id.successView)
     SuccessView mSuccessView;
 
     @Override

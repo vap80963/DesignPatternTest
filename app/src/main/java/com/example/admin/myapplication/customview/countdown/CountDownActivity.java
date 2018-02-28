@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import com.example.admin.myapplication.R;
 import com.example.admin.myapplication.utils.CountDownTimer;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CountDownActivity extends AppCompatActivity {
 
-    @Bind(R.id.count_down)
+    @BindView(R.id.count_down)
     CountDownView mCountDownView;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.constraintLayout)
+    @BindView(R.id.constraintLayout)
     ConstraintLayout mConstraintLayout;
     CountDownTimer mCountDownTimer;
 
